@@ -6,7 +6,7 @@ import type { PaginationProvide, QueryProvide } from '@/typing/typing'
 import { useRoute } from 'vue-router'
 
 const { setQuery } = inject('query') as QueryProvide
-const { pagination } = inject('pagination') as PaginationProvide
+const { totalCount } = inject('pagination') as PaginationProvide
 const route = useRoute()
 </script>
 
@@ -14,7 +14,7 @@ const route = useRoute()
   <div class="container">
     <SearchComponent @search="setQuery" />
     <RouterView />
-    <PaginationComponent :currentPage="+route.params.id" :totalCount="pagination.totalCount" />
+    <PaginationComponent :currentPage="+route.params.id" :totalCount="totalCount" />
   </div>
 </template>
 

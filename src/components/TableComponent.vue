@@ -1,22 +1,22 @@
 <script setup lang="ts">
 import { ref, computed, inject, watch } from 'vue'
 import TableItem from './TableItem.vue'
-import type { PaginationProvide, Post, SortParam } from '@/typing/typing'
+import { SortParam, type PaginationProvide, type Post, type QueryProvide } from '@/typing/typing'
 import TableHeader from './TableHeader.vue'
 import { filterAndSort } from '@/utils'
 import LoaderComponent from './LoaderComponent.vue'
 import { LIMIT } from '@/utils/consts'
 import { useRoute, useRouter } from 'vue-router'
 import { fetchPosts } from '@/api'
+import { NameRoutes } from '@/router/router'
 
 const posts = ref<Post[]>([])
-const query = ref<string>('')
 const isLoading = ref<boolean>(false)
 const sortParam = ref<SortParam | null>(null)
 const router = useRouter()
 const route = useRoute()
-
-const { pagination, setPagination } = inject('pagination') as PaginationProvide
+const { query } = inject('query') as QueryProvide
+const { setTotalCount } = inject('pagination') as PaginationProvide
 const filteredPosts = computed(() => filterAndSort(posts.value, query.value, sortParam.value))
 
 const updateSortParam = (value: SortParam) => {
@@ -31,16 +31,13 @@ watch(
       .then(({ data, headers }) => {
         const totalCount = +headers['x-total-count']
         if (+route.params.id > totalCount / LIMIT) {
-          router.push('/page/1')
+          router.push({ name: NameRoutes.table, params: { id: 1 } })
         } else {
           posts.value = data
-          setPagination({
-            //TODO
-            ...pagination.value,
-            totalCount: totalCount
-          })
+          setTotalCount(totalCount)
         }
       })
+      .catch((e: Error) => alert(e.message))
       .finally(() => (isLoading.value = false))
   },
   { immediate: true }
@@ -70,4 +67,3 @@ watch(
   margin-bottom: 24px;
 }
 </style>
-@/utils

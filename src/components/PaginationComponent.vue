@@ -3,6 +3,7 @@ import PaginationItem from './PaginationItem.vue'
 import { LIMIT } from '@/utils/consts'
 import { getPaginationList } from '@/utils'
 import { computed } from 'vue'
+import { NameRoutes } from '@/router/router'
 
 interface PaginationComponentProps {
   currentPage: number
@@ -10,26 +11,34 @@ interface PaginationComponentProps {
 }
 
 const props = defineProps<PaginationComponentProps>()
-
-const pagesRef = computed(() => getPaginationList(props.totalCount, LIMIT, props.currentPage))
+const paginationList = computed(() => getPaginationList(props.totalCount, LIMIT, props.currentPage))
 </script>
 
 <template>
   <div class="pagination">
-    <RouterLink class="link_go" :to="`/page/${currentPage > 1 ? currentPage - 1 : currentPage}`">
+    <RouterLink
+      class="link_go"
+      :to="{
+        name: NameRoutes.table,
+        params: { id: currentPage > 1 ? currentPage - 1 : currentPage }
+      }"
+    >
       Назад
     </RouterLink>
     <ul class="pagination_items">
       <PaginationItem
-        v-for="page in pagesRef.pages"
+        v-for="page in paginationList.pages"
         :key="page"
         :page="page"
-        :to="`/page/${page}`"
+        :to="{ name: NameRoutes.table, params: { id: page } }"
       />
     </ul>
     <RouterLink
       :class="'link_go'"
-      :to="`/page/${currentPage < pagesRef.pagesTotal ? currentPage + 1 : currentPage}`"
+      :to="{
+        name: NameRoutes.table,
+        params: { id: currentPage < paginationList.pagesTotal ? currentPage + 1 : currentPage }
+      }"
       >Далее
     </RouterLink>
   </div>

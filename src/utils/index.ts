@@ -28,7 +28,10 @@ const check = (value: string, query: string) => {
 export const filterAndSort = (posts: Post[], query: string, sortParam: SortParam | null) => {
   const filtered = query
     ? posts.filter(
-        ({ id, body, title }) => check(`${id}`, query) || check(body, query) || check(title, query)
+        (post) =>
+          check(`${post[SortParam.id]}`, query) ||
+          check(post[SortParam.title], query) ||
+          check(post[SortParam.body], query)
       )
     : [...posts]
 

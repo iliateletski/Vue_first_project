@@ -58,7 +58,6 @@ const emit = defineEmits<{ sort: [param: SortParam] }>()
 .header_btn {
   margin-left: 25%;
   font-size: 14px;
-  font-weight: 600;
   line-height: 19px;
   color: #fff;
   border: none;

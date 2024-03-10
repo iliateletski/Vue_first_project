@@ -5,11 +5,9 @@ export type QueryProvide = {
   setQuery: (value: string) => void
 }
 
-export type Pagination = { totalCount: number; currentPage: number }
-
 export type PaginationProvide = {
-  pagination: Ref<Pagination>
-  setPagination: (value: Pagination) => void
+  totalCount: Ref<number>
+  setTotalCount: (value: number) => void
 }
 
 export interface Post {

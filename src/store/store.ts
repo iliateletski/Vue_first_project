@@ -1,4 +1,4 @@
-import type { Pagination, PaginationProvide, QueryProvide } from '@/typing/typing'
+import type { PaginationProvide, QueryProvide } from '@/typing/typing'
 import { ref } from 'vue'
 
 const query = ref<string>('')
@@ -11,12 +11,12 @@ export const queryProvide: QueryProvide = {
   setQuery
 }
 
-const pagination = ref({ totalCount: 0, currentPage: 1 })
-const setPagination = (newValue: Pagination) => {
-  pagination.value = newValue
+const totalCount = ref<number>(0)
+const setTotalCount = (value: number) => {
+  totalCount.value = value
 }
 
 export const paginationProvide: PaginationProvide = {
-  pagination,
-  setPagination
+  totalCount,
+  setTotalCount
 }

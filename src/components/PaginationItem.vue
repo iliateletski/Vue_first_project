@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { RouterLink } from 'vue-router'
+import type { RouteLocationRaw } from 'vue-router'
 
 interface PaginationItemProps {
-  to: string
+  to: RouteLocationRaw
   page: number | string
 }
 
